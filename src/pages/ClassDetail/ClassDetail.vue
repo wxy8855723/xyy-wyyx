@@ -1,26 +1,45 @@
 <template>
-    <div id="templateContainer">
-      <div class="scrollWrap">
-        <img class="banner" v-lazy="category.wapBannerUrl" :key="category.wapBannerUrl" alt="">
-        <ul>
-          <li v-for="(c,index) in category.subCateList" :key="index">
-            <img v-lazy="c.wapBannerUrl" :key="c.wapBannerUrl" alt="">
-            <p>{{c.name}}</p>
-          </li>
-        </ul>
-      </div>
+  <div id="templateContainer">
+    <div class="scrollWrap">
+      <img class="banner" v-lazy="category.wapBannerUrl" :key="category.wapBannerUrl" alt="">
+      <ul>
+        <li v-for="(c,index) in category.subCateList" :key="index">
+          <img v-lazy="c.wapBannerUrl" :key="c.wapBannerUrl" alt="">
+          <p>{{c.name}}</p>
+        </li>
+      </ul>
     </div>
+  </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll'
+  import {mapState} from 'vuex'
   export default {
 
-    props:{
-      category:Object
+    data () {
+      return {
+        category:{}
+      }
+    },
+
+    computed : {
+      ...mapState({
+        AllClass: state => state.category.allClass
+      })
     },
 
     watch : {
+      AllClass () {
+       this.category = this.AllClass.categoryL1List[0]
+      },
+
+      $route () {
+        const path = this.$route.params.id
+        const category = this.AllClass.categoryL1List.filter(item => item.id === path*1)
+        this.category = category[0]
+      },
+
       category () {
         this.$nextTick( () => {
           new BScroll('#templateContainer',{
@@ -29,8 +48,7 @@
           })
         })
       }
-    },
-
+    }
 
   }
 </script>

@@ -6,8 +6,8 @@
           <span class="text">首页</span>
         </li>
 
-        <li class="item" @click="$router.replace('/class')">
-          <i class="icon" :class="$route.path === '/class'? 'icon-tabBar-class-active':'icon-tabBar-class'"></i>
+        <li class="item" @click="$router.replace('/class/classDetail1022001')">
+          <i class="icon" :class="$route.path === '/class/classDetail1022001'? 'icon-tabBar-class-active':'icon-tabBar-class'"></i>
           <span class="text">分类</span>
         </li>
 
@@ -21,7 +21,7 @@
           <span class="text">购物车</span>
         </li>
 
-        <li class="item" @click="$router.replace('/profile')">
+        <li class="item" @click="$router.replace('/login')">
           <i class="icon icon-tabBar-profile"></i>
           <span class="text">个人</span>
         </li>

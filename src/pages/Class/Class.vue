@@ -9,12 +9,12 @@
       <div class="content">
         <div class="leftNav">
           <ul>
-            <li :class="{active:index === Index}" v-for="(category,index) in AllClass.categoryL1List" :key="index" @click="toggleClassAndCategory(category,index)">
-              <a href="javascript:;" :class="{color:index === Index}">{{category.name}}</a>
+            <li :class="{active:index === Index}" v-for="(category,index) in AllClass.categoryL1List" :key="index" @click="toggleClassAndCategory(index)">
+              <router-link :to="`/class/classDetail${category.id}`">{{category.name}}</router-link>
             </li>
           </ul>
         </div>
-        <ClassTemplate :category="category"/>
+        <router-view/>
       </div>
     </div>
 </template>
@@ -27,7 +27,6 @@
 
     data () {
       return {
-        category:{},
         Index:0
       }
     },
@@ -37,9 +36,8 @@
     },
 
     methods : {
-      toggleClassAndCategory (category,index) {
+      toggleClassAndCategory (index) {
         this.Index = index
-        this.category = category
       }
     },
 
@@ -122,7 +120,8 @@
               a
                 color #7e8c8d
                 font-size 28px
-                &.color
-                  color #ab2b2b
+              .router-link-active
+                color #ab2b2b
+
 
 </style>

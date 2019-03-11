@@ -1,6 +1,7 @@
 <template>
-    <div>
-        Profile
+    <div id="PhotoWallContainer">
+
+
     </div>
 </template>
 

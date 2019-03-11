@@ -1,10 +1,18 @@
-import Home from '../pages/Home/Home.vue'
-import Class from '../pages/Class/Class.vue'
-import Dis from '../pages/Dis/Dis.vue'
-import Cart from '../pages/Cart/Cart.vue'
-import Profile from '../pages/Profile/Profile.vue'
-import Search from '../pages/Search/Search.vue'
-import Login from '../pages/Login/Login.vue'
+// import Home from '../pages/Home/Home.vue'
+const Home = () => import('../pages/Home/Home.vue')
+// import Class from '../pages/Class/Class.vue'
+const Class = () => import('../pages/Class/Class.vue')
+// import Dis from '../pages/Dis/Dis.vue'
+const Dis = () => import('../pages/Dis/Dis.vue')
+// import Cart from '../pages/Cart/Cart.vue'
+const Cart = () => import('../pages/Cart/Cart.vue')
+// import Search from '../pages/Search/Search.vue'
+const Search = () => import('../pages/Search/Search.vue')
+// import Login from '../pages/Login/Login.vue'
+const Login = () => import('../pages/Login/Login.vue')
+import ClassDetail from '../pages/ClassDetail/ClassDetail.vue'
+import DisTab from '../pages/DisTab/DisTab.vue'
+
 
 export default [
   {
@@ -19,14 +27,32 @@ export default [
     component:Class,
     meta:{
       isShowFooter:true
-    }
+    },
+    children:[
+      {
+        path:'/class/classDetail:id',
+        component:ClassDetail,
+        meta:{
+          isShowFooter:true
+        },
+      }
+    ]
   },
   {
     path:'/dis',
     component:Dis,
     meta:{
       isShowFooter:true
-    }
+    },
+    children:[
+      {
+        path:'/dis/tab:id',
+        component:DisTab,
+        meta:{
+          isShowFooter:true
+        },
+      },
+    ]
   },
   {
     path:'/cart',
@@ -36,16 +62,12 @@ export default [
     }
   },
   {
-    path:'/profile',
-    component:Profile
+    path:'/login',
+    component:Login
   },
   {
     path:'/search',
     component:Search
-  },
-  {
-    path:'/login',
-    component:Login
   },
   {
     path:'/',
