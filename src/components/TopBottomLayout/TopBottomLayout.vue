@@ -1,22 +1,27 @@
 <template>
     <div id="topbottomlayoutContainer">
       <header>
-        <img src="https://yanxuan.nosdn.127.net/ac3dbd459c11a2403c27a1b534f92adf.png" alt="">
-        <span>选妹</span>
+        <img v-lazy="i.avatar" alt="">
+        <span>{{i.nickname}}</span>
       </header>
       <p class="title">
-        比运动裤还自由的严选牛仔裤，人手一条绝对不够！限时领130元券礼包~
+        {{i.title}}
       </p>
-      <img  class="bigImg" src="http://yanxuan.nosdn.127.net/yx-topic-1552273885657s9yaqd16.jpg" alt="">
+      <img  class="bigImg" v-lazy="i.picUrl" alt="">
       <div class="haveMet">
         <i class="iconfont icon-kanguo"></i>
-        <p>200人看过</p>
+        <p>{{i.readCount}}人看过</p>
       </div>
     </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props : {
+      i:Object
+    },
+
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
@@ -43,7 +48,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       margin-top 20px
-    .bigImg
+    img
       width 100%
       height 394px
     .haveMet

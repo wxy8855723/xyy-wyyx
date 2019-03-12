@@ -11,8 +11,8 @@
           <span class="text">分类</span>
         </li>
 
-        <li class="item" @click="$router.replace('/dis')">
-          <i class="icon" :class="$route.path === '/dis'? 'icon-tabBar-dis-active':'icon-tabBar-dis'"></i>
+        <li class="item" @click="$router.replace('/dis/tab0')">
+          <i class="icon" :class="$route.path === '/dis/tab0'? 'icon-tabBar-dis-active':'icon-tabBar-dis'"></i>
           <span class="text">识物</span>
         </li>
 
@@ -44,6 +44,7 @@
     height 1.30667rem
     background #fafafa
     border-top 0.01rem solid #d9d9d9
+    z-index 100
     .navList
       display flex
       justify-content space-around

@@ -2,28 +2,32 @@
     <div id="LeftRightLayoutContainer">
       <div class="left">
         <header>
-          <img src="https://yanxuan.nosdn.127.net/cd62a3ee15e849f6543829e98f12708d.png" alt="">
-          <span>文成</span>
+          <img v-lazy="i.avatar" alt="">
+          <span>{{i.nickname}}</span>
         </header>
         <p class="title">
-          开发半年的神仙杯子，半天抢光。问我感想，我说太假了
+          {{i.title}}
         </p>
         <p class="decs">
-          星愿双层玻璃杯，高调回归！
+          {{i.subTitle}}
         </p>
         <div class="haveMet">
           <i class="iconfont icon-kanguo"></i>
-          <p>200人看过</p>
+          <p>{{i.readCount}}人看过</p>
         </div>
       </div>
       <div class="right">
-        <img src="https://yanxuan.nosdn.127.net/e5e9a59b218ac8eb238e125bc30e9f3d.jpg" alt="">
+        <img v-lazy="i.picUrl" alt="">
       </div>
     </div>
 </template>
 
 <script>
-  export default {}
+  export default {
+    props : {
+      i:Object
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>

@@ -9,7 +9,8 @@ import router from './router'
 import './mock/mockServer'
 
 Vue.use(VueLazyload,{
-  loading:'static/loading.gif'
+  preLoad:1.3,
+  loading:'../static/loading.gif'
 })
 
 new Vue({

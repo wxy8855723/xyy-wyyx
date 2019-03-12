@@ -67,7 +67,7 @@ const getters = {
   navName (state) {
     return state.goodsList.map( item => item.name )
   },
-
+  //三维数组轮播图
   personalShop3arr (state) {
     let {personalShop} = state.shouye
     if (personalShop) {
@@ -80,6 +80,10 @@ const getters = {
       })
       return arr
     }
+  },
+  //限时购
+  timeToBuy (state) {
+    return state.shouye.flashSaleModule
   }
 
 

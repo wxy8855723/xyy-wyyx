@@ -10,4 +10,12 @@ export const GETCLASS = 'getclass'
 
 export const GETNAVLIST = 'getnavlist'
 
-export const GETRECOMMEND = 'getrecommend'
+export const GETRECOMMEND1 = 'getrecommend1'
+
+export const GETRECOMMEND2 = 'getrecommend2'
+
+export const GETSEARCHLIST = 'getsearchlist'
+
+export const GETSHAIDANHEADER = 'getshaidanheader'
+
+export const GETSHAIDANCONTENT = 'getshaidancontent'

@@ -1,10 +1,10 @@
 <template>
   <div id="searchContainer">
     <div class="search">
-      <input type="text" placeholder="美妆护肤 女王专享7折起">
+      <input type="text" placeholder="美妆护肤 女王专享7折起" v-model="searchName">
       <div class="cancel" @click="$router.replace('/home')">取消</div>
     </div>
-    <div class="hot">
+    <div class="hot" v-show="!searchName">
       <p>热门搜索</p>
       <ul>
         <li>按摩电器</li>
@@ -17,17 +17,45 @@
         <li>四件套279元起</li>
       </ul>
     </div>
+    <ul class="contentList" v-show="searchName">
+      <li v-for="(item,index) in searchlist" :key="index">{{item}}</li>
+    </ul>
   </div>
 </template>
 
 <script>
-  export default {}
+  import {mapState} from 'vuex'
+  export default {
+    data () {
+      return {
+        searchName:'',
+      }
+    },
+
+    computed : {
+      ...mapState({
+        searchlist: state => state.search.searchList
+      })
+    },
+
+    watch : {
+      searchName () {
+        clearTimeout(this.timrId)
+        this.timrId = setTimeout( () => {
+          this.$store.dispatch('getSearchList',this.searchName)
+        },20)
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   #searchContainer
     width 100%
     height 100%
+    position fixed
+    top 0
+    bottom 0
     .search
       position relative
       width 70%
@@ -82,4 +110,17 @@
           &.active
             color #b4282d
             border 1px solid #b4282d
+    .contentList
+        width 100%
+        height 500px
+        background #fff
+        position absolute
+        left 0
+        top 80px
+        li
+          line-height 100px
+          padding-left 30px
+          width 100%
+          border-bottom 1px solid #ccc
+          font-size 30px
 </style>

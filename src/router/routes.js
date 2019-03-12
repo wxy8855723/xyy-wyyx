@@ -10,8 +10,11 @@ const Cart = () => import('../pages/Cart/Cart.vue')
 const Search = () => import('../pages/Search/Search.vue')
 // import Login from '../pages/Login/Login.vue'
 const Login = () => import('../pages/Login/Login.vue')
-import ClassDetail from '../pages/ClassDetail/ClassDetail.vue'
-import DisTab from '../pages/DisTab/DisTab.vue'
+// import ClassDetail from '../pages/ClassDetail/ClassDetail.vue'
+const ClassDetail = () => import('../pages/ClassDetail/ClassDetail.vue')
+// import DisTab from '../pages/DisTab/DisTab.vue'
+const DisTab = () => import('../pages/DisTab/DisTab.vue')
+
 
 
 export default [
@@ -41,6 +44,7 @@ export default [
   {
     path:'/dis',
     component:Dis,
+    redirect:'/dis/tab0',
     meta:{
       isShowFooter:true
     },

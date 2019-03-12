@@ -59,9 +59,6 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   #disContainer
     width 100%
-    position fixed
-    top 0
-    bottom 0
     header
       width 100%
       height 75px
@@ -97,7 +94,7 @@
           line-height 76px
           display block
           font-size 28px
-          padding 0 20px
+          padding 0 10px
           color #7f7f7f
           font-weight normal
         .router-link-active

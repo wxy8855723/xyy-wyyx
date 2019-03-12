@@ -29,7 +29,7 @@
         <!--遮罩层-->
         <div v-show="showMask" @click="hideMask" class="mask"></div>
           <!--轮播图-->
-        <div class="swiper-container" ref="swiperNoe">
+        <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <img
@@ -73,7 +73,7 @@
             </div>
           </div>
           <!-- 如果需要分页器 -->
-          <div class="swiper-pagination" ref="paginationNoe"></div>
+          <div class="swiper-pagination"></div>
         </div>
 
         <div class="contentContainer">
@@ -119,7 +119,7 @@
             <div class="privateText">
               私人定制
             </div>
-            <div class="swiper-container" ref="swiperTwo">
+            <div class="swiper-container-two" >
               <div class="swiper-wrapper">
                 <div class="swiper-slide" :key="index" v-for="(item,index) in personalShop3arr">
                   <div v-for="(i,index) in item" :key="index">
@@ -132,13 +132,72 @@
                 </div>
               </div>
               <!-- 如果需要分页器 -->
-              <div class="swiper-pagination" ref="paginationTwo"></div>
+              <div class="swiper-pagination-two"></div>
             </div>
-
           </div>
 
-          <div class="zero"></div>
+          <Split/>
 
+          <div class="TimeToBuy" v-if="timeToBuy">
+            <div class="header">
+              <span class="title">限时购</span>
+              <div class="time">
+                <span>03</span>
+                <span>:</span>
+                <span>04</span>
+                <span>:</span>
+                <span>05</span>
+              </div>
+              <div class="more">
+                <span>更多></span>
+              </div>
+            </div>
+            <ul class="list">
+              <li v-for="(item,index) in timeToBuy.itemList" :key="index">
+                <img v-lazy="item.picUrl" alt="">
+                <div class="price">
+                  <span>￥{{item.activityPrice}}</span>
+                  <del>￥{{item.originPrice}}</del>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <Split/>
+
+          <div class="goodsTab">
+            <ul class="goodsTabList">
+              <li  v-for="(category,index) in shouye.categoryModule" :key="index">
+                <Split/>
+                <img v-lazy="category.titlePicUrl" alt="">
+                <div :class="'smallListWrap' + index">
+                  <ul class="smallList">
+                    <li v-for="(c,index) in category.itemList" :key="index">
+                      <img v-lazy="c.scenePicUrl" alt="">
+                      <p class="ellipsis">{{c.name}}</p>
+                      <p class="price">￥{{c.retailPrice}}</p>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <Split/>
+
+          <div class="ftWrap">
+            <div  class="ftContent">
+              <div class="bd">
+                <a href="javascript:;" class="goApp">下载APP</a>
+                <a  href="javascript:;" class="goPc">电脑版</a>
+              </div>
+              <p class="copyRight">
+                <span>网易公司版权所有 © 1997-</span>
+                <span data-v-57b29fc1="">2019</span>
+                <br>
+              </p>
+             </div>
+          </div>
         </div>
     </div>
 </template>
@@ -147,6 +206,7 @@
   import {mapGetters,mapState} from 'vuex'
   import Swiper from 'swiper'
   import BScroll from 'better-scroll'
+  import Split from '../../components/Split/Split'
   export default {
 
     data () {
@@ -165,11 +225,27 @@
       },
 
       _initSweiper () {
-        new Swiper (this.$refs.swiperNoe, {
+        new Swiper ('.swiper-container', {
           loop: true, // 循环模式选项
           // 如果需要分页器
           pagination: {
-            el:'swiper-pagination'
+            el:'.swiper-pagination',
+            type:'custom',
+            clickable :true,
+            // 自定义分页器
+            renderCustom: function (swiper, current, total) {
+              console.log('renderCustom')
+              var customPaginationHtml = "";
+              for (var i = 0; i < total; i++) {
+                //判断哪个分页器此刻应该被激活
+                if (i === (current - 1)) {
+                  customPaginationHtml += '<span class="swiper-pagination-customs swiper-pagination-customs-active"></span>';
+                } else {
+                  customPaginationHtml += '<span class="swiper-pagination-customs"></span>';
+                }
+              }
+              return customPaginationHtml;
+            }
           }
         })
 
@@ -187,13 +263,25 @@
     watch : {
       personalShop3arr () {
         this.$nextTick(() => {
-          new Swiper (this.$refs.swiperTwo, {
+          new Swiper ('.swiper-container-two', {
             loop: true, // 循环模式选项
             // 如果需要分页器
             pagination: {
-              el:this.$refs.paginationTwo
+              el:'.swiper-pagination-two'
             }
           })
+        })
+      },
+
+      shouye () {
+        this.$nextTick( () => {
+          const categoryModule = this.shouye.categoryModule
+          for (var i = 0; i < categoryModule.length; i++) {
+            new BScroll('.smallListWrap'+i,{
+              click: true,
+              scrollX: true
+            })
+          }
         })
       }
     },
@@ -208,13 +296,17 @@
     },
 
     computed : {
-      ...mapGetters(['navName','homeCategoryImg','personalShop3arr']),
+      ...mapGetters(['navName','homeCategoryImg','personalShop3arr','timeToBuy']),
       ...mapState({
         goodsList: state => state.index.goodsList,
         homeCategoryImg : state => state.index.homePage,
         hot: state => state.index.hot,
-        shouye:state => state.index.shouye
+        shouye:state => state.index.shouye,
       })
+    },
+
+    components : {
+      Split
     }
   }
 </script>
@@ -224,6 +316,7 @@
     width 100%
     height 100%
     overflow hidden
+    padding-bottom 80px
     header
       width 100%
       height 148px
@@ -336,10 +429,17 @@
       z-index -1000
     .swiper-container
       width 100%
-      height 408px
       img
         width 100%
         height 100%
+      .swiper-pagination
+        width 100%
+        height 100%
+        &.swiper-pagination-custom
+          bottom: 10px;
+          left: 0;
+          width: 100%;
+          height: 100px
     .contentContainer
       width 100%
       .serve
@@ -424,9 +524,10 @@
           font-size: 0.42667rem
           padding: 0 0.4rem
           background: #fff
-        .swiper-container
+        .swiper-container-two
           width 100%
-          height 393px
+          .swiper-pagination-two
+            text-align center
           .swiper-slide
             width 100%
             height 318px
@@ -449,8 +550,159 @@
               .price
                 color red
                 text-align center
-      .zero
+      .TimeToBuy
         width 100%
-        height 300px
-        background red
+        padding 0.13333rem 0.4rem 0.4rem 0.34667rem
+        box-sizing border-box
+        .header
+          width 100%
+          height 99px
+          padding-top 30px
+          box-sizing border-box
+          .title,.time
+            float left
+            font-size 32px
+            margin-left 20px
+          .time
+            background #333
+            color #fff
+            span
+              float left
+              display block
+              width 0.48rem
+              height 0.48rem
+              text-align center
+              padding 3px
+              &:nth-child(2),&:nth-child(4)
+               color #000
+               background #fff
+          .more
+            float right
+            font-size 32px
+        .list
+          display flex
+          flex-wrap wrap
+          justify-content space-around
+          li
+            width 210px
+            height 318px
+            img
+              width 100%
+              height 216px
+              background #eee
+              margin-top 30px
+            .price
+              width 100%
+              text-align center
+              font-size 28px
+              span
+                color #b4282d
+
+
+      .goodsTab
+        width 100%
+        .goodsTabList
+          width 100%
+          li
+            width 100%
+            height 800px
+            img
+              width 100%
+              height 400px
+            div
+              width 100%
+              margin-top 30px
+              ul
+                float left
+                display flex
+                justify-content space-around
+                margin-top 50px
+                li
+                  width 200px
+                  height 329px
+                  margin-right 20px
+                  text-align center
+                  img
+                    width 200px
+                    height 200px
+                    background #eee
+                  p
+                    margin-top 20px
+                    font-size 26px
+                  .price
+                    margin-top 30px
+                    color #b4282d
+
+
+
+      .ftWrap
+        border-top: 1px solid rgba(0,0,0,.15);
+        background-color: #414141;
+        .ftContent
+          text-align: center;
+          padding: .22rem .26667rem .37333rem;
+          width: 10rem;
+          margin-right: auto;
+          margin-left: auto;
+          margin-top 50px
+          .bd
+            .goApp
+              margin-right: .66667rem;
+              padding 0.23333rem 0.53333rem
+              width: 2.29333rem;
+              font-size: .32rem;
+              color: #fff;
+              border 1px #fff solid
+            .goPc
+              width: 2.29333rem;
+              padding 0.23333rem 0.53333rem
+              font-size: .32rem;
+              color: #fff;
+              border 1px #fff solid
+          .copyRight
+            margin-top: .48rem;
+            font-size: .32rem;
+            line-height: .42667rem;
+            color: #999;
+  </style>
+<style>
+  /*自定义分页器的样式，这个你自己想要什么样子自己写*/
+  .swiper-pagination-customs {
+    width: .53333rem;
+    height: .05333rem;
+    display: inline-block;
+    background: #fff;
+    opacity: .4;
+    border-radius: 0;
+    margin: 1rem .13333rem 0 0;
+  }
+
+  /*自定义分页器激活时的样式表现*/
+  .swiper-pagination-customs-active {
+    opacity: 1;
+    background: #fff;
+    border-radius: 0;
+  }
+
+  .swiper-pagination-bullet {
+    width: .16rem;
+    height: .16rem;
+    border-radius: 50%;
+    background: #333;
+    border: none;
+    vertical-align: middle;
+  }
+
+  .swiper-pagination-bullet-active {
+    border: none;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url(//yanxuan-static.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/bullet-active-90b9116b84.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: .16rem;
+    height: .16rem;
+  }
+
+
 </style>
