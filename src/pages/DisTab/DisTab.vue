@@ -1,8 +1,8 @@
 <template>
     <div id="distabContainer">
       <!--推荐模板-->
-      <div  v-if="+$route.params.id === 0">
-        <ul ref="firstUl" v-for="(item,index) in Recommend1" :key="index">
+      <div  v-show="+$route.params.id === 0">
+        <ul  v-for="(item,index) in Recommend1" :key="index">
           <li v-for="(i,index) in item.topics" :key="index">
             <Split/>
             <TopBottomLayout :i="i" v-if="i.style === 1"/>
@@ -20,14 +20,16 @@
       </div>
 
       <!--晒单模板-->
-      <div v-if="+$route.params.id === 3" >
+      <div v-show="+$route.params.id === 3">
         <ShaidanTemplate/>
       </div>
+
 
     </div>
 </template>
 
 <script>
+  import BScroll from 'better-scroll'
   import Split from '../../components/Split/Split'
   import TopBottomLayout from '../../components/TopBottomLayout/TopBottomLayout'
   import LeftRightLayout from '../../components/LeftRightLayout/LeftRightLayout'
@@ -37,29 +39,27 @@
   import {mapState} from 'vuex'
   export default {
 
-    data () {
-      return {
-        flag:true
-      }
-    },
-
     mounted () {
-      window.addEventListener('scroll',this.handleScroll)
+      console.log('mounted')
       this.$store.dispatch('getRecommend1')
+      this.$nextTick(() => {
+        if (!this.scroll) {
+          this.scroll = new BScroll('#distabContainer',{
+            click:true,
+            scrollY:true,
+            pullUpLoad:{
+              threshold:-10
+            }
+          })
+          this.scroll.on('pullingUp', () => {
+            this.$store.dispatch('getRecommend2')
+          })
+        } else {
+          this.scroll.refresh()
+        }
+      })
     },
 
-    methods : {
-      handleScroll () {
-       const top = document.documentElement.scrollTop || document.body.scrollTop
-       const height = this.$refs.firstUl.reduce( (pre,ul) => {
-          return pre + ul.clientHeight
-        },0)
-        if (top >= 8000 && this.flag) {
-          this.flag = false
-          this.$store.dispatch('getRecommend2')
-        }
-      }
-    },
 
     computed : {
       ...mapState({
@@ -67,6 +67,7 @@
         Recommend2: state => state.dis.getRecommend2,
       })
     },
+
 
     components : {
       Split,
@@ -82,5 +83,8 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
  #distabContainer
    width 100%
-
+   position fixed
+   top 165px
+   bottom 0
+   z-index -1
 </style>

@@ -19,12 +19,12 @@
           <img src="//yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt="">
         </div>
 
-        <div class="loginPhone" @click="loginWay = 1">
+        <div class="loginPhone" @click="toggleLoginWay(1)">
           <i class="iconfont icon-shouji"></i>
           <span>手机号码登录</span>
         </div>
 
-        <div class="loginEmail">
+        <div class="loginEmail" @click="toggleLoginWay(2)">
           <i class="iconfont icon-youxiang"></i>
           <span>邮箱账号登录</span>
         </div>
@@ -50,24 +50,25 @@
           </ul>
         </div>
       </div>
-      <div class="codeContent" v-if="loginWay === 1">
+
+      <div class="codeContent" v-if="loginWay === 1 || 2">
         <div class="bigLogo">
           <img src="//yanxuan.nosdn.127.net/bd139d2c42205f749cd4ab78fa3d6c60.png" alt="">
         </div>
 
-        <input class="phone" type="text" placeholder="请输入手机号">
+        <input class="phone" type="text" :placeholder="loginWay === 1? '请输入手机号' : '请输入邮箱'" v-model="loginWay === 1?phone : email">
 
         <div class="codeWrap">
-          <input class="code" type="text" placeholder="请输入短信验证码">
+          <input class="code" type="text" :placeholder="loginWay === 1? '请输入验证码' : '请输入邮箱验证码'">
           <div class="getCode">获取验证码</div>
         </div>
 
-        <div class="loginPhone">
+        <div class="loginPhone" @click="login">
           <i class="iconfont icon-shouji"></i>
           <span>登录</span>
         </div>
 
-        <div class="loginEmail">
+        <div class="loginEmail" @click="toggleLoginWay(0)">
           <i class="iconfont icon-youxiang"></i>
           <span>其他登录方式</span>
         </div>
@@ -84,8 +85,37 @@
   export default {
     data () {
       return {
-        loginWay:0 //0正常显示界面  1手机短信登录 2 账号密码登录
-      }
+        loginWay:0, //0正常显示界面  1手机短信登录 2 邮箱登录,
+        phone:'',
+        phoneExg:/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/,
+        email:'',
+        emailExg:/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
+    }
+    },
+
+    methods : {
+      toggleLoginWay (index) {
+        this.phone = ''
+        this.email = ''
+        this.loginWay = index
+      },
+
+      login () {
+        const {phone,email,phoneExg,emailExg} = this
+        if (phone) {
+          if (phoneExg.test(phone)) {
+            console.log('通过了')
+          } else {
+            console.log('没通过')
+          }
+        } else {
+          if (emailExg.test(email)) {
+            console.log('通过了')
+          } else {
+            console.log('没通过')
+          }
+        }
+      },
     }
   }
 </script>

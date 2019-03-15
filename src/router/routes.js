@@ -15,6 +15,10 @@ const ClassDetail = () => import('../pages/ClassDetail/ClassDetail.vue')
 // import DisTab from '../pages/DisTab/DisTab.vue'
 const DisTab = () => import('../pages/DisTab/DisTab.vue')
 
+import Comment1 from '../pages/DisTab/Comment/Comment1'
+import Comment2 from '../pages/DisTab/Comment/Comment2'
+import Comment3 from '../pages/DisTab/Comment/Comment3'
+
 
 
 export default [
@@ -55,6 +59,29 @@ export default [
         meta:{
           isShowFooter:true
         },
+        children:[
+          {
+            path:'/dis/tab:id/comment1',
+            component:Comment1,
+            meta:{
+              isShowFooter:true
+            },
+          },
+          {
+            path:'/dis/tab:id/comment2',
+            component:Comment2,
+            meta:{
+              isShowFooter:true
+            },
+          },
+          {
+            path:'/dis/tab:id/comment3',
+            component:Comment3,
+            meta:{
+              isShowFooter:true
+            },
+          },
+        ]
       },
     ]
   },

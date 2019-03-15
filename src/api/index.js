@@ -23,3 +23,6 @@ export const reqSearchList = (searchName) => ajax(BASE + '/xhr/search/searchAuto
 export const reqShaidanHeader = () => ajax(BASE + '/topic/v1/look/getCollection.json?id=26')
 
 export const reqShaidanContent = () => ajax(BASE + '/topic/v1/look/getList.json?page=1&size=20&type=1')
+
+//获取短信验证码
+export const reqSendCode = (phone) => ajax(BASE + '/sendcode',{phone})

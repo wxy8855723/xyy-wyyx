@@ -234,7 +234,6 @@
             clickable :true,
             // 自定义分页器
             renderCustom: function (swiper, current, total) {
-              console.log('renderCustom')
               var customPaginationHtml = "";
               for (var i = 0; i < total; i++) {
                 //判断哪个分页器此刻应该被激活
@@ -279,7 +278,8 @@
           for (var i = 0; i < categoryModule.length; i++) {
             new BScroll('.smallListWrap'+i,{
               click: true,
-              scrollX: true
+              scrollX: true,
+              scrollY:false
             })
           }
         })

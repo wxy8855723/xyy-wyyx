@@ -16,7 +16,7 @@
       </header>
       <ul>
         <li :key="index" v-for="(item,index) in navlist" @click="toggleClass(index)">
-          <router-link :to="`/dis/tab${index}`">
+          <router-link :to="index === 3?`/dis/tab${index}/comment1`:`/dis/tab${index}`">
             {{item.tabName}}
           </router-link>
         </li>
@@ -59,6 +59,9 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
   #disContainer
     width 100%
+    position fixed
+    top 0
+    bottom 0
     header
       width 100%
       height 75px

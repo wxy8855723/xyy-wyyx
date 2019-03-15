@@ -7,7 +7,8 @@ const state = {
   navList:[], //导航列表
   getRecommend1:[],
   getRecommend2:{},
-  shaidanheader:{}
+  shaidanHeader:{},
+  shaidanContent:{}
 }
 
 const actions =  {
@@ -42,10 +43,15 @@ const actions =  {
     const result = await reqShaidanHeader()
     if (result.code === '200') {
       commit(GETSHAIDANHEADER,result.data)
+    }
+  },
 
+  async getShaidanContent ({commit}) {
+    const result = await reqShaidanContent()
+    if (result.code === '200') {
+      commit(GETSHAIDANCONTENT,result.data)
     }
   }
-
 }
 
 const mutations = {
@@ -66,7 +72,12 @@ const mutations = {
 
   //晒单头部
   [GETSHAIDANHEADER] (state,result) {
-    state.shaidanheader = result
+    state.shaidanHeader = result
+  },
+
+  //晒单内容
+  [GETSHAIDANCONTENT] (state,result) {
+    state.shaidanContent = result
   }
 }
 

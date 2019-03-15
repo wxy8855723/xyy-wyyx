@@ -12,7 +12,7 @@
         </li>
 
         <li class="item" @click="$router.replace('/dis/tab0')">
-          <i class="icon" :class="$route.path === '/dis/tab0'? 'icon-tabBar-dis-active':'icon-tabBar-dis'"></i>
+          <i class="icon" :class="path.test($route.path)? 'icon-tabBar-dis-active':'icon-tabBar-dis'"></i>
           <span class="text">识物</span>
         </li>
 
@@ -31,7 +31,13 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    data () {
+      return {
+        path:/dis/
+      }
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
